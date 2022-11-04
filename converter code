@@ -1,0 +1,50 @@
+const input = require('sync-input');
+const currencies = ['USD', 'JPY', 'EUR', 'RUB', 'GBP'];
+const rates = [1, 113.5, 0.89, 74.36, 0.75];
+console.log("Welcome to Currency Converter!");
+for (i in currencies) {
+  console.log(`1 USD equals ${rates[i]} ${currencies[i]}`);
+}
+
+let run = true;
+while (run) {
+  console.log("What do you want to do?");
+  const menuChoice = input('1-Convert currencies 2-Exit program\n');
+  switch (menuChoice) {
+    case "1":
+      let convert = true;
+      while (convert) {
+        console.log("What do you want to convert?");
+        let convertFrom = input("From:").toUpperCase();
+        if (!currencies.includes(convertFrom)) {
+          console.log("Unknown currency");
+          continue;
+        }
+        let convertTo = input("To:").toUpperCase();
+        if (!currencies.includes(convertTo)) {
+          console.log("Unknown currency");
+          continue;
+        }
+        let amount = Number(input("Amount:"));
+        if (isNaN(Number(amount))) {
+          console.log("The amount has to be a number");
+          continue;
+        }
+        if (amount < 1) {
+          console.log("The amount cannot be less than 1");
+          continue;
+        }
+        const result = ((amount / rates[currencies.indexOf(convertFrom)]) * rates[currencies.indexOf(convertTo)]).toFixed(4);
+        console.log(`Result: ${amount} ${convertFrom} equals ${result} ${convertTo}`);
+        convert = false;
+      }
+
+    case "2":
+      console.log("Have a nice day!");
+      run = false;
+      break;
+
+    default:
+      console.log("Unknown input");
+  }
+}
